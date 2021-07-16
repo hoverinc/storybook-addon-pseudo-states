@@ -4,7 +4,7 @@
 
 Toggle CSS pseudo states for your components in Storybook.
 
-[![Published on npm](https://badgen.net/npm/v/storybook-addon-pseudo-states)](https://www.npmjs.com/package/storybook-addon-pseudo-states)
+[![Published on npm](https://badgen.net/npm/v/@hover/storybook-addon-pseudo-states)](https://www.npmjs.com/package/@hover/storybook-addon-pseudo-states)
 [![Tested with Chromatic](https://badgen.net/badge/tested%20with/chromatic/fc521f)](https://www.chromatic.com/builds?appId=6008aabce49a640021858011)
 
 <p>
@@ -26,14 +26,14 @@ This addon requires Storybook 6.1 or later. Install the latest with `npx sb upgr
 First, install the addon:
 
 ```sh
-npm i -D storybook-addon-pseudo-states
+npm i -D @hover/storybook-addon-pseudo-states
 ```
 
-Then, add `"storybook-addon-pseudo-states"` to the `addons` array in your [`.storybook/main.js`](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project):
+Then, add `"@hover/storybook-addon-pseudo-states"` to the `addons` array in your [`.storybook/main.js`](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project):
 
 ```js
 module.exports = {
-  addons: ["storybook-addon-pseudo-states"],
+  addons: ["@hover/storybook-addon-pseudo-states"],
 }
 ```
 
