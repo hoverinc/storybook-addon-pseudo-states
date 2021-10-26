@@ -6,7 +6,7 @@ import { PSEUDO_STATES } from "./constants"
 
 const pseudoStates = Object.values(PSEUDO_STATES)
 const matchOne = new RegExp(`:(${pseudoStates.join("|")})`)
-const matchAll = new RegExp(`:(${pseudoStates.join("|")})(?![-)])`, "g")
+const matchAll = new RegExp(`([^(]):(${pseudoStates.join("|")})`, "g")
 
 // Drops any existing pseudo state classnames that carried over from a previously viewed story
 // before adding the new classnames. We do this the old-fashioned way, for IE compatibility.
@@ -94,9 +94,9 @@ function rewriteStyleSheets(shadowRoot) {
               .flatMap((selector) => {
                 if (selector.includes(`.pseudo-`)) return []
                 const states = []
-                const plainSelector = selector.replace(matchAll, (_, state) => {
+                const plainSelector = selector.replace(matchAll, (_, before, state) => {
                   states.push(`.pseudo-${state}`)
-                  return ""
+                  return before
                 })
                 const stateSelector = shadowRoot
                   ? `:host(${states.join("")}) ${plainSelector}`
