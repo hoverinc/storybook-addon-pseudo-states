@@ -1,3 +1,15 @@
+# v1.1.3 (Tue Oct 26 2021)
+
+#### ⚠️ Pushed to `main`
+
+- Fix negation match `:not()` fix... match leading `(` instead ([@jrolfs](https://github.com/jrolfs))
+
+#### Authors: 1
+
+- Jamie Rolfs ([@jrolfs](https://github.com/jrolfs))
+
+---
+
 # v1.1.2 (Tue Oct 26 2021)
 
 #### 🐛 Bug Fix
