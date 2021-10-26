@@ -1,3 +1,15 @@
+# v1.1.2 (Tue Oct 26 2021)
+
+#### 🐛 Bug Fix
+
+- Don't match psuedo-selectors inside negation classes [#1](https://github.com/hoverinc/storybook-addon-pseudo-states/pull/1) ([@jrolfs](https://github.com/jrolfs))
+
+#### Authors: 1
+
+- Jamie Rolfs ([@jrolfs](https://github.com/jrolfs))
+
+---
+
 # v1.1.1 (Fri Jul 16 2021)
 
 #### ⚠️ Pushed to `main`
