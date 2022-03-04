@@ -1,6 +1,6 @@
 /* eslint-env browser */
 import { addons, useEffect, useGlobals, useParameter } from "@storybook/addons"
-import { DOCS_RENDERED, STORY_CHANGED, STORY_RENDERED } from "@storybook/core-events"
+import { DOCS_RENDERED, STORY_CHANGED, STORY_RENDERED, SELECT_STORY, NAVIGATE_URL } from "@storybook/core-events"
 
 import { PSEUDO_STATES } from "./constants"
 
@@ -21,6 +21,9 @@ const applyClasses = (element, classnames) => {
 // Traverses ancestry to collect relevant pseudo classnames, and applies them to the shadow host.
 // Shadow DOM can only access classes on its host. Traversing is needed to mimic the CSS cascade.
 const updateShadowHost = (shadowHost) => {
+  const before = performance.now();
+  console.log('START: 🕶 Updating shadow root...')
+
   const classnames = new Set()
   for (let element = shadowHost.parentElement; element; element = element.parentElement) {
     if (!element.className) continue
@@ -30,11 +33,29 @@ const updateShadowHost = (shadowHost) => {
       .forEach((classname) => classnames.add(classname))
   }
   applyClasses(shadowHost, classnames)
+
+  console.log('FINISH: 🕶 Updating shadow root...', performance.now() - before)
 }
+
+// Rudimentary flag to only rewrite stylesheets on initial render
+let stylesheetsRewritten = false;
 
 // Keep track of attached shadow host elements for the current story
 const shadowHosts = new Set()
-addons.getChannel().on(STORY_CHANGED, () => shadowHosts.clear())
+
+const reset = () => {
+  stylesheetsRewritten = false;
+  shadowHosts.clear();
+}
+
+addons.getChannel().on(NAVIGATE_URL, (args) => {
+  console.log('NAVIGATE_URL', args)
+  return reset();
+})
+addons.getChannel().on(STORY_CHANGED, (args) => {
+  console.log('STORY_CHANGED', args)
+  return reset();
+})
 
 // Global decorator that rewrites stylesheets and applies classnames to render pseudo styles
 export const withPseudoState = (StoryFn, { viewMode, parameters, id }) => {
@@ -82,6 +103,13 @@ const warnOnce = (message) => {
 
 // Rewrite CSS rules for pseudo-states on all stylesheets to add an alternative selector
 function rewriteStyleSheets(shadowRoot) {
+  if (stylesheetsRewritten) return;
+
+  stylesheetsRewritten = true;
+
+  const before = performance.now();
+  console.log('START: ✍🏻 Re-writing stylesheets...')
+
   for (const sheet of (shadowRoot || document).styleSheets) {
     try {
       let index = 0
@@ -124,6 +152,8 @@ function rewriteStyleSheets(shadowRoot) {
       }
     }
   }
+
+  console.log('FINISH: ✍🏻 Re-writing stylesheets...', performance.now() - before)
 }
 
 // Reinitialize CSS enhancements every time the story changes
